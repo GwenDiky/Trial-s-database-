@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Редактирование</h1>
+    <form action="" method=POST>
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <input class="btn btn-dark" type="submit" value="Сохранить изменения">
+    </form>
+    <br>
+    <form action="{% url 'main:home' %}">
+        <input class="btn btn-dark" type="submit" value="Вернуться назад">
+    </form>
+    <br>
+{% endblock %}

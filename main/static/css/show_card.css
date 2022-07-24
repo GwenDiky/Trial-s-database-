@@ -1,0 +1,17 @@
+.category {
+    background-color: #bdbcbc58;
+}
+
+.content ul li {
+    list-style-type: none;
+}
+
+/* Убираем стандартный маркер Chrome */
+details summary::-webkit-details-marker {
+    display: none
+  }
+  /* Убираем стандартный маркер Firefox */
+  details > summary {
+    list-style: none;
+  }
+  

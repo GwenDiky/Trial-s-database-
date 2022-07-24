@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="shadow p-4 mb-5 bg-body rounded">
+    <h1>Форма для добавления карточки:</h1>
+    <br><br>
+    {% if submitted %}
+        Ваша запись была успешно добавлена!
+        <a href={% url 'main:rights' %}><u>Перейти на страницу постановлений.</u></a>
+    {% else %}
+        <form action=" " method=POST>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type='submit' value="Отправить" class="btn btn-outline-secondary">
+            <br>
+    {% endif %}
+</div>
+{% endblock %}

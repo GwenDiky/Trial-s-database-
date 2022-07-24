@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/registration.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if form.errors %}
+    <mark>При попытке зарегистрироваться произошла ошибка.</mark>
+{% endif %}
+<div class="shadow p-4 mb-5 bg-body rounded">
+    <form action="{% url 'members:register_user' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px; height: 40px;">Зарегистрироваться</button>
+</form>
+</div>
+{% endblock %}

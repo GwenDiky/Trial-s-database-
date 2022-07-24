@@ -1,0 +1,72 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/rights.css' %}">
+{% endblock %}
+
+{% block content %}
+<body>
+    {% for card in cards %}
+        <ul>
+            
+                <div class="card-body" style="border: 1px solid black; border-radius: 10px; box-shadow: 5px 2px 2px gray;">
+                  <h5 class="card-title">{{ card.name }} | {{ card.case_number }}</h5>
+                  <br>
+                  <p class="card-text"><strong>Наименование суда, вынесшего постановление: </strong>{{ card.trial }}</p>
+                  <p class="card-text"><strong>Инстанция: </strong>{{ card.instance }}</p>
+                  <p class="card-text"><strong>Вид судопроизводства: </strong>{{ card.proceeding }}</p>
+                  <p class="card-text"><strong>Номер дела: </strong>{{ card.case_number }}</p>
+                  {% if card.motivation %}
+                    <p class="card-text"><strong>Наличие мотивировочной части:</strong> {{ card.motivation }}</p>
+                  {% else %}
+                    <p class="card-text"><strong>Наличие мотивировочной части:</strong> Не указано </p>
+                  {% endif %}
+                  {% if card.review %}
+                    <p class="card-text"><strong>Наличие истории рассмотрения</strong> {{ card.review }}</p>
+                  {% else %}
+                    <p class="card-text"><strong>Наличие история рассмотрения:</strong> Не указано </p>
+                  {% endif %}
+                  {% if card.intial != "None" %}
+                    <p class="card-text"><strong>Первоначальное решение первой инстанции: </strong>{{ card.intial }}</p>
+                    <p class="card-text"><strong>Встречное решение первой инстанции: </strong>{{ card.counter }}</p>
+                  {% elif card.cassation != "None" %}
+                    <p class="card-text"><strong>Решение кассационной первой инстанции: </strong>{{ card.cassation }}</p>
+                  {% elif card.appellate != "None" %}
+                    <p class="card-text"><strong>Решение апелляционной инстанции: </strong>{{ card.appellate }}</p>
+                  {% endif %}
+              {% if card.first_dispute %}
+                  <div class="category">
+                      <p class="card-text"><strong>Категории:</strong></p>
+                      <p class="card-text"><strong>Подкатегория 1: </strong>
+                        {% for card in card.first_dispute.all %}
+                            {{ card }}
+                        {% endfor %}
+                        </p>
+                      {% if card.second1_dispute != "None"  %}
+                          <p class="card-text"><strong>Подкатегория 2: </strong>{{ card.second1_dispute }}</p>
+                      {% endif %}
+                      {% if card.second2_dispute != "None" %}
+                          <p class="card-text"><strong>Подкатегория 2: </strong>{{ card.second2_dispute }}</p>
+                      {% endif %}
+                      {% if card.third_dispute != "None" %}
+                          <p class="card-text"><strong>Подкатегория 3: </strong>{{ card.third_dispute }}</p>
+                      {% endif %}
+                  </div>
+              {% endif %}
+              {% if card.documents %}
+                  <br><p class="card-text"><strong>Сопутствующие документы: </strong> <a href="{{ card.documents }}" style="color:black;" target="_blank">{{ card.documents }}</a></p>
+              {% endif %}
+                  <hr>
+                  <p class="card-text">Дата вынесения постановления: {{ card.date }}</p>
+                </div>
+            
+              <br><br>
+        </ul>
+    {% endfor %}
+</body>
+{% endblock %}

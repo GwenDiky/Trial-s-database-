@@ -1,0 +1,75 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<body>
+  <br><br><center>
+    <div class="filtration">
+      <h4 style="color:gray;">Фильтр</h4>
+      <br>
+      <form method=GET>
+        {{ myFilter.form }}
+        <br>
+        <button class="btn btn-dark" type="submit">Применить</button>
+        <button class="btn btn-dark" type="reset">Очистить</button>
+      </form>
+    </div>
+  </center>
+  <br><br><br>
+    <table class="table table-bordered table">
+      <tr style="background-color: #bdbcbc58;" class="row1">
+       
+          <td><em>Наименование </em></td>
+          <td><em>Мотивировочная часть</em></td>
+          <td><em>История рассмотрения</em></td>
+          <td><em>Дата вынесения</em></td>
+          <td></td>
+       
+      </tr>
+      <tr>
+      {% for card in card_list %}
+        <td><a href="{% url 'main:show-card' card.id %}">{{ card }} | {{ card.case_number }}</a></td>
+        <center>
+          {% if card.motivation %}
+            <td style="text-align: center;">
+              {% if card.motivation == "Есть" %}
+                <p>✔</p></td>
+              {% else %}
+                <p>❌</p></td>
+              {% endif %}
+            {% else %}
+            <td style="text-align: center;">Не указано</td>
+          {% endif %}
+          {% if card.review %}
+            <td style="text-align: center;">
+              {% if card.review == "Есть" %}
+                <p>✔</p></td>
+              {% else %}
+                <p>❌</p></td>
+              {% endif %}
+          {% else %}
+            <td><center>Не указано</center></td>
+          {% endif %}
+          <td>{{ card.date }}</td>
+        </center>
+        {% if user.is_superuser %}
+          <td align="right" colspan="2"><a href="{% url 'main:delete' card.id %}"  class="btn btn-outline-danger btn-sm " style="margin-bottom:10px;">Удалить</a>
+          <br>
+            <a href="{% url 'main:edit' card.id %}" class="btn btn-outline-dark btn-sm">Редактировать</a></td>
+        {% else %}
+          <td align="right" colspan="2"><a href="{% url 'main:card_full_text' card.id %}"  class="btn btn-outline-dark btn-sm " style="margin-bottom:10px;">Открыть полный текст постановления</a></td>
+        {% endif %}
+      </tr>    
+      {% endfor %}
+    </table> 
+    <a class="btn btn-dark" href="{% url 'main:card_text' %}">Скачать текст постановлений</a><br><br><br>
+  </body>
+{% endblock %}

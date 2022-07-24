@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/card_full_text.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card-body" style="border: 1px solid black; border-radius: 10px; box-shadow: 5px 2px 2px gray;">
+     <a href="{% url 'main:show-card' card.id %}"><img src="{% static 'img/card.png' %}" style="width: auto; height: 50px;"> Перейти к карточке</a>
+     <br><br>
+     <h4>Полный текст постановления {{ card.name }}</h4> 
+    <div class="description">
+        {{ card.description }}
+    </div>
+    <br>
+    <form action="{% url 'main:home' %}">
+        <input class="btn btn-dark" type="submit" value="Вернуться назад">
+    </form>
+</div>
+{% endblock %}

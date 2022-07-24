@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block extra_head_links %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% if treatment %}
+        <p>Вы совершили поиск по: "{{ treatment }}"</p>
+        <br>
+        {% for card in card_list %}
+            <ul class="border"><li><a href="{% url 'main:show-card' card.id %}">{{ card }}</a><br></li></ul>
+        {% endfor %} 
+    {% else %}
+        <p>Вы не ввели символы, необходимые для поиска.</p>
+    {% endif %}
+    <br>
+    <form action="{% url 'main:home' %}">
+        <input class="btn btn-dark" type="submit" value="Вернуться назад">
+    </form>
+{% endblock %}
